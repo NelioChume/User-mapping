@@ -25,7 +25,7 @@ def read_and_filter_logs(container_name):
     return relevant_info
 
 if __name__ == "__main__":
-    container_name = "abc"
+    container_name = "mhosp"
     # Lendo e filtrando as informações relevantes dos logs do contêiner especificado
     relevant_logs = read_and_filter_logs(container_name)
 
