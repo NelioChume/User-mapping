@@ -2,6 +2,15 @@ import subprocess
 import re
 
 def read_and_filter_logs(container_name):
+    """
+    Função para ler os logs de um contêiner LXC/LXD especificado e extrair informações relevantes.
+
+    Args:
+    - container_name: Nome do contêiner a ser lido.
+
+    Returns:
+    - Uma lista contendo as informações relevantes dos logs.
+    """
     # Comando para ler os logs do contêiner e capturar a saída
     command = f"dhis2-logview {container_name}"
     output = subprocess.check_output(command, shell=True, text=True)
