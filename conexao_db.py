@@ -18,3 +18,6 @@ def connect():
         return conn
     except psycopg2.Error as e:
         print("Erro ao conectar ao PostgreSQL:", e)
+
+if __name__ == "__main__":
+    connect()
