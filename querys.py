@@ -2,7 +2,6 @@ import psycopg2
 import os
 from dotenv import load_dotenv
 
-# Carregar variáveis de ambiente do arquivo .env
 load_dotenv()
 
 # Variáveis de ambiente para conexão ao banco de dados PostgreSQL
@@ -16,6 +15,8 @@ def connect():
     try:
         # Conectando ao banco de dados
         conn = psycopg2.connect(dbname=DB_DATABASE, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+        # Desabilitar o modo de transação automática
+        conn.autocommit = True
         print("Conexão bem-sucedida!")
         return conn
     except psycopg2.Error as e:
@@ -76,7 +77,6 @@ def create_database_and_table():
             print("Base de dados e tabela criadas com sucesso!")
         except psycopg2.Error as e:
             print("Erro ao executar comandos SQL:", e)
-
 
 if __name__ == "__main__":
     create_database_and_table()
