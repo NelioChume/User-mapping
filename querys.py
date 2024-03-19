@@ -79,3 +79,6 @@ def create_database_and_table():
             print("Base de dados e tabela criadas com sucesso!")
         except psycopg2.Error as e:
             print("Erro ao executar comandos SQL:", e)
+
+if __name__ == "__main__":
+    create_database_and_table()
