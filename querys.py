@@ -21,17 +21,38 @@ def connect():
     except psycopg2.Error as e:
         print("Erro ao conectar ao PostgreSQL:", e)
 
+def create_database_if_not_exists(conn, dbname):
+    try:
+        # Criar um cursor
+        cur = conn.cursor()
+
+        # Verificar se o banco de dados já existe consultando o catálogo do PostgreSQL
+        cur.execute("SELECT 1 FROM pg_database WHERE datname = %s;", (dbname,))
+        exists = cur.fetchone()
+
+        if not exists:
+            # Criar o banco de dados se ainda não existir
+            cur.execute(f"CREATE DATABASE {dbname};")
+            print(f"Banco de dados '{dbname}' criado com sucesso!")
+        else:
+            print(f"O banco de dados '{dbname}' já existe.")
+
+        # Commit das alterações
+        conn.commit()
+
+        # Fechar o cursor
+        cur.close()
+    except psycopg2.Error as e:
+        print("Erro ao executar comandos SQL:", e)
+
 def create_database_and_table():
     # Conectar-se ao PostgreSQL
     conn = connect()
     if conn:
         try:
-            # Criar um cursor
-            cur = conn.cursor()
-
             # Criar a base de dados "mapping_user" se ainda não existir
-            cur.execute("CREATE DATABASE IF NOT EXISTS mapping_user;")
-            
+            create_database_if_not_exists(conn, "mapping_user")
+
             # Conectar-se à base de dados "mapping_user"
             conn.close()
             conn = psycopg2.connect(dbname="mapping_user", user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -58,6 +79,3 @@ def create_database_and_table():
             print("Base de dados e tabela criadas com sucesso!")
         except psycopg2.Error as e:
             print("Erro ao executar comandos SQL:", e)
-
-if __name__ == "__main__":
-    create_database_and_table()
