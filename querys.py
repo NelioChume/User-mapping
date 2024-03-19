@@ -23,7 +23,7 @@ def connect():
 
 def create_database_if_not_exists(conn, dbname):
     try:
-        # Criar um cursor
+        # Criar um cursor sem iniciar uma transação
         cur = conn.cursor()
 
         # Verificar se o banco de dados já existe consultando o catálogo do PostgreSQL
@@ -36,9 +36,6 @@ def create_database_if_not_exists(conn, dbname):
             print(f"Banco de dados '{dbname}' criado com sucesso!")
         else:
             print(f"O banco de dados '{dbname}' já existe.")
-
-        # Commit das alterações
-        conn.commit()
 
         # Fechar o cursor
         cur.close()
@@ -79,6 +76,7 @@ def create_database_and_table():
             print("Base de dados e tabela criadas com sucesso!")
         except psycopg2.Error as e:
             print("Erro ao executar comandos SQL:", e)
+
 
 if __name__ == "__main__":
     create_database_and_table()
