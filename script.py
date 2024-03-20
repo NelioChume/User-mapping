@@ -1,5 +1,6 @@
 import subprocess
 import re
+import querys as querys
 
 def read_and_filter_logs(container_name):
     # Comando para ler os logs do contêiner e capturar a saída

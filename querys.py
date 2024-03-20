@@ -78,5 +78,37 @@ def create_database_and_table():
         except psycopg2.Error as e:
             print("Erro ao executar comandos SQL:", e)
 
+def insert_authentication_log(container_name, authentication_event, username, exception=None, datetime=None):
+    try:
+        # Conectar-se ao banco de dados
+        conn = connect()
+        if not conn:
+            print("Falha ao conectar ao banco de dados.")
+            return
+        
+        cur = conn.cursor()
+
+        # Inserir os dados na tabela
+        cur.execute("""
+            INSERT INTO authentication_logs (container_name, authentication_event, username, exception, datetime)
+            VALUES (%s, %s, %s, %s, %s);
+        """, (container_name, authentication_event, username, exception, datetime))
+
+        # Commit da transação
+        conn.commit()
+
+        print("Dados inseridos com sucesso na tabela authentication_logs!")
+
+    except psycopg2.Error as e:
+        print("Erro ao inserir dados na tabela authentication_logs:", e)
+
+    finally:
+        # Fechar o cursor e a conexão
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
+
 if __name__ == "__main__":
     create_database_and_table()
