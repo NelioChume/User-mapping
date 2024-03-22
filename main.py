@@ -13,14 +13,16 @@ def read_and_filter_logs(container_name):
     # Filtrando as informações relevantes dos logs
     for line in output.split('\n'):
         if "AuthenticationSuccessEvent" in line or "AuthenticationFailureBadCredentialsEvent" in line:
-            match = re.search(r'(\w+ \d+ \d+:\d+:\d+) (\w+) tomcat9\[\d+\]: \* INFO .* username: (\w+); ip: (\d+\.\d+\.\d+\.\d+);', line)
+            match = re.search(r'(\w+ \d+ \d+:\d+:\d+) (\w+) tomcat9\[\d+\]: \* INFO .* Authentication event: (\w+); username: (\w+); ip: (\d+\.\d+\.\d+\.\d+);', line)
             if match:
                 date_time = match.group(1)
                 container_name = match.group(2)
-                username = match.group(3)
-                ip = match.group(4)
-                relevant_info.append((date_time, container_name, username, ip))
+                authentication_event = match.group(3)
+                username = match.group(4)
+                ip = match.group(5)
+                relevant_info.append((date_time, container_name, authentication_event, username, ip))
     return relevant_info
+
 
 if __name__ == "__main__":
     # Definindo o nome do contêiner
@@ -31,9 +33,9 @@ if __name__ == "__main__":
 
     for info in relevant_logs:
         print("Container Name:", info[1])
-        print("Authentication Event:", "AuthenticationSuccessEvent" if "AuthenticationSuccessEvent" in info[0] else "AuthenticationFailureBadCredentialsEvent")
-        print("Username:", info[2])
-        print("IP:", info[3])
+        print("Authentication Event:", info[2])
+        print("Username:", info[3])
+        print("IP:", info[4])
         print("Datetime:", info[0])
         print("-------------------------------------")
 
