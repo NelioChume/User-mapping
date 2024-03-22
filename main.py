@@ -33,6 +33,7 @@ if __name__ == "__main__":
         print("Container Name:", info[1])
         print("Authentication Event:", "AuthenticationSuccessEvent" if "AuthenticationSuccessEvent" in info[0] else "AuthenticationFailureBadCredentialsEvent")
         print("Username:", info[2])
+        print("IP:", info[3])
         print("Datetime:", info[0])
         print("-------------------------------------")
 
