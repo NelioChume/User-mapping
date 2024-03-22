@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     with open("info_logs.txt", "w") as file:
         for info in relevant_logs:
-            file.write(f"Container_name: {info[0]}, Data & Hora: {info[1]}, User_name: {info[2]}, Ip: {info[3]}\n")
+            file.write(f"Container_name: {info[1]}, Data & Hora: {info[0]}, User_name: {info[2]}, Ip: {info[3]}\n")
 
     # Inserindo as informações relevantes dos logs no banco de dados
     #for info in relevant_logs:
