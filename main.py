@@ -29,12 +29,16 @@ if __name__ == "__main__":
     # Lendo e filtrando as informações relevantes dos logs do contêiner especificado
     relevant_logs = read_and_filter_logs(container_name)
 
-    with open("info_logs.txt", "w") as file:
-        for info in relevant_logs:
-            file.write(f"Container_name: {info[1]}, Data & Hora: {info[0]}, User_name: {info[2]}, Ip: {info[3]}\n")
+    for info in relevant_logs:
+        print("Container Name:", info[1])
+        print("Authentication Event:", "AuthenticationSuccessEvent" if "AuthenticationSuccessEvent" in info[0] else "AuthenticationFailureBadCredentialsEvent")
+        print("Username:", info[2])
+        print("Datetime:", info[0])
+        print("-------------------------------------")
 
     # Inserindo as informações relevantes dos logs no banco de dados
     #for info in relevant_logs:
      #   insert_authentication_log(info[1], "AuthenticationSuccessEvent" if "AuthenticationSuccessEvent" in info[0] else "AuthenticationFailureBadCredentialsEvent", info[2], datetime=info[0])
 
-    #print("Informações relevantes dos logs foram inseridas no banco de dados.")
+
+    print("Informações relevantes dos logs foram inseridas no banco de dados.")
